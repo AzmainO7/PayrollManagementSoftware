@@ -2,7 +2,14 @@
 
 HOW TO RUN THE APPLICATION : 
 
-1. First we have to Login to MS SQL Server and connect our database to Netbeans project through jdbc driver.
-2. In order to run the project then we have to check if the Microsoft SQL Server service is running at the TCP Port given to the service.
-3. We have to start Netbeans IDE and open the project in the IDE.
-4. Finally we have to run the project by clicking the run button.
+1. Download JDK 1.8 in order to properly run the application.
+
+2. Download the JDBC Driver from this link - "https://www.microsoft.com/en-us/download/details.aspx?id=11774"
+    - unzip the file and go to sqljdbc_version\enu\auth\x64 or \x86
+    - copy the sqljdbc_auth.dll to C:\Program Files\Java\jre_Version\bin
+    
+3. In order to run the project Open Sql Server Configuration Manager,
+   - go to "SQL Server Services" and start "SQL Server Browser" if not running already.
+   - go go to "SQL Server Network Configuration/Protocols For SQLEXPRESS" and enable TCP/IP protocol if disabled.
+   
+4. Finally run the application by double clicking "PayrollManagementSoftware\dist\PayrollManagementSoftware.jar".
