@@ -921,7 +921,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
                 Double ded = Double.valueOf(deduction.getText());
                 Double adv = Double.valueOf(advance.getText());
                 Double itax = Double.valueOf(tax.getText());
-                Double result1 = result - ded - adv - -abs - itax;
+                Double result1 = result - ded - adv - abs - itax;
                 net_salary.setText(String.valueOf(result1));
             }
         } catch (Exception e) {
