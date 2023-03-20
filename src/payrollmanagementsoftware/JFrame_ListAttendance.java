@@ -19,27 +19,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class JFrame_ListAttendance extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
     
     public JFrame_ListAttendance() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
     }
     
     private void refreshTable() {
         try {
             String sql = "select * from Attendance inner join Employee ON Attendance.emp_id = Employee.emp_id ";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -184,7 +175,7 @@ public class JFrame_ListAttendance extends javax.swing.JFrame {
             System.out.println(DateFrom);
 
             sql = "select * from Attendance ";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
                 
             ResultSetMetaData data = rs.getMetaData();

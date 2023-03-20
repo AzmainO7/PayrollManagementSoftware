@@ -19,27 +19,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrame_ShiftManagement extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_ShiftManagement() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
     }
 
     private void refreshTable() {
         try {
             String sql = "select * from Shift";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -300,7 +291,7 @@ public class JFrame_ShiftManagement extends javax.swing.JFrame {
         try {
             int id = Integer.parseInt(tableModel.getValueAt(seletedRows, 0).toString());
             String sql = "update Shift set s_name = ?, s_start = ?, s_end = ? where s_id = ?";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             pst.setString(1, sname.getText());
             pst.setString(2, sstart.getText());
@@ -326,7 +317,7 @@ public class JFrame_ShiftManagement extends javax.swing.JFrame {
             if (deleteItem == JOptionPane.YES_OPTION) {
 
                 String sql = "delete from Shift where s_id = ?";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
 
                 pst.setInt(1, id);
                 pst.executeUpdate();
@@ -347,7 +338,7 @@ public class JFrame_ShiftManagement extends javax.swing.JFrame {
                     + "(s_name,s_start,s_end)"
                     + "values (?,?,?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, sname.getText());
             pst.setString(2, sstart.getText());
             pst.setString(3, send.getText());

@@ -19,27 +19,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrame_Department extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_Department() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
     }
 
     private void refreshTable() {
         try {
             String sql = "select * from Department";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -240,7 +231,7 @@ public class JFrame_Department extends javax.swing.JFrame {
         try {
             int id = Integer.parseInt(tableModel.getValueAt(seletedRows, 0).toString());
             String sql = "update Department set department_name = ? where department_id = ?";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             pst.setString(1, name.getText());
             pst.setString(2, String.valueOf(id));
@@ -264,7 +255,7 @@ public class JFrame_Department extends javax.swing.JFrame {
             if (deleteItem == JOptionPane.YES_OPTION) {
 
                 String sql = "delete from Department where department_id = ?";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
 
                 pst.setInt(1, id);
                 pst.executeUpdate();
@@ -283,7 +274,7 @@ public class JFrame_Department extends javax.swing.JFrame {
         try {
             String sql = "insert into Department (department_name) values (?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, name.getText());
 
             pst.execute();

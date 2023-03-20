@@ -23,20 +23,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrame_ListEmployee extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_ListEmployee() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
         loadParameterInfo();
     }
@@ -44,7 +35,7 @@ public class JFrame_ListEmployee extends javax.swing.JFrame {
     private void loadParameterInfo() {
         try {
             String sql = "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Employee' ";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 parameter.addItem(rs.getString("column_name"));
@@ -58,7 +49,7 @@ public class JFrame_ListEmployee extends javax.swing.JFrame {
     private void refreshTable() {
         try {
             String sql = "select * from Employee";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -290,7 +281,7 @@ public class JFrame_ListEmployee extends javax.swing.JFrame {
 
             String sql = "select * from Employee where emp_id = '" + id + "'";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 String add1 = rs.getString("emp_name");
@@ -364,7 +355,7 @@ public class JFrame_ListEmployee extends javax.swing.JFrame {
             if (deleteItem == JOptionPane.YES_OPTION) {
 
                 String sql = "delete from Employee where emp_id = ?";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
 
                 pst.setInt(1, id);
                 pst.executeUpdate();
@@ -386,12 +377,12 @@ public class JFrame_ListEmployee extends javax.swing.JFrame {
 
             if (selection.equals("emp_id")) {
                 sql = "select * from Employee where " + selection + " = ?";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, criteria);
                 rs = pst.executeQuery();
             } else {
                 sql = "select * from Employee where " + selection + " like '" + criteria + "%'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
             }
 

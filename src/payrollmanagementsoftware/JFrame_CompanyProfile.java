@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_CompanyProfile extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
@@ -33,12 +32,8 @@ public class JFrame_CompanyProfile extends javax.swing.JFrame {
     public JFrame_CompanyProfile() {
         initComponents();
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-            Statement stmt = conn.createStatement();
+        try {          
+            Statement stmt = ConnectionDB.conDB().createStatement();
             String query = "select count(*) from Company";
             rs = stmt.executeQuery(query);
             rs.next();
@@ -48,7 +43,7 @@ public class JFrame_CompanyProfile extends javax.swing.JFrame {
             if (count != 0) {
                 String sql = "select * from Company where c_id = 1";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
                 while (rs.next()) {
                     String add1 = rs.getString("c_name");
@@ -353,7 +348,7 @@ public class JFrame_CompanyProfile extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Statement stmt = conn.createStatement();
+            Statement stmt = ConnectionDB.conDB().createStatement();
             String query = "select count(*) from Company";
             rs = stmt.executeQuery(query);
             rs.next();
@@ -365,7 +360,7 @@ public class JFrame_CompanyProfile extends javax.swing.JFrame {
                         + "(c_name,c_address,c_phone,c_header,c_footer,c_logo)"
                         + "values (?,?,?,?,?,?)";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, cname.getText());
                 pst.setString(2, caddress.getText());
                 pst.setString(3, cphone.getText());
@@ -387,7 +382,7 @@ public class JFrame_CompanyProfile extends javax.swing.JFrame {
                 String sql = "update Company set c_name='" + value1 + "', c_address='" + value2 + "', "
                         + "c_phone='" + value3 + "',c_header='" + value4 + "',c_footer='" + value5 + "' where c_id='1' ";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Record Updated");
             }

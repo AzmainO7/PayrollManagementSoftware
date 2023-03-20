@@ -23,27 +23,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class JFrame_ListDeductions extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_ListDeductions() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
     }
 
     private void refreshTable() {
         try {
             String sql = "select * from Deduction";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -256,11 +247,11 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
 
             if (jRadioDate.isSelected()) {
                 sql = "select * from Deduction where start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
             } else if ((jRadioEmpDate.isSelected())) {
                 sql = "select * from Deduction where emp_id = ? AND start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, EmpID);
                 rs = pst.executeQuery();
             }
@@ -310,7 +301,7 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
 
             String sql = "SELECT * from Deduction INNER JOIN Employee ON Deduction.emp_id = Employee.emp_id AND Deduction.deduction_id = '" + id + "'";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 String add1 = rs.getString("emp_name");

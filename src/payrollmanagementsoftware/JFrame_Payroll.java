@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_Payroll extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
@@ -37,14 +36,6 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
     public JFrame_Payroll() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         loadShiftInfo();
     }
 
@@ -57,7 +48,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
     private void loadShiftInfo() {
         try {
             String sql = "select * from Shift";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 emp_shift.addItem(rs.getString("s_name"));
@@ -655,7 +646,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             String selection = emp_code1.getText();
 
             sql = "select * from Employee where emp_id = ?";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -714,7 +705,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 //                    + "GROUP BY Employee.emp_salary";
             sql = "SELECT emp_salary FROM Employee WHERE Employee.emp_id = ?";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -725,7 +716,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             sql = "SELECT SUM(amount) as total FROM Allowance WHERE emp_id = ? AND enroll_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -738,7 +729,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             sql = "SELECT SUM(total_amount) as total FROM Overtime WHERE emp_id = ? AND enroll_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -751,7 +742,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             sql = "SELECT SUM(days) as total FROM Leave WHERE emp_id = ? AND start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -762,7 +753,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
                     Double salary = Double.valueOf(base_salary.getText());
                     System.out.println("Leave Days : " + leaveDays);
                     sql = "SELECT COUNT(attendance_id) as count FROM Attendance WHERE emp_id = ? AND attendance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
-                    pst = conn.prepareStatement(sql);
+                    pst = ConnectionDB.conDB().prepareStatement(sql);
                     pst.setString(1, selection);
                     rs = pst.executeQuery();
 
@@ -792,7 +783,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             sql = "SELECT SUM(amount) as total FROM Deduction WHERE emp_id = ? AND enroll_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -805,7 +796,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             sql = "SELECT SUM(amount) as total FROM CashAdvance WHERE emp_id = ? AND cashAdvance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -888,7 +879,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
                     + "(emp_id,salary_date,salary_from,salary_to,total_days,present_days,basic_salary,overtime,allowance,bonus,gross_pay,deduction,advance,income_tax,net_salary)"
                     + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             pst.setString(2, DateTo);
             pst.setString(3, DateFrom);

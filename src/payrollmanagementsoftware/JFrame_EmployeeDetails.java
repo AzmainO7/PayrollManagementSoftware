@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_EmployeeDetails extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
@@ -37,15 +36,6 @@ public class JFrame_EmployeeDetails extends javax.swing.JFrame {
 
     public JFrame_EmployeeDetails() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         loadDeptInfo();
         loadShiftInfo();
     }
@@ -53,7 +43,7 @@ public class JFrame_EmployeeDetails extends javax.swing.JFrame {
     private void loadDeptInfo() {
         try {
             String sql = "select * from Department";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 emp_dept.addItem(rs.getString("department_name"));
@@ -66,7 +56,7 @@ public class JFrame_EmployeeDetails extends javax.swing.JFrame {
     private void loadShiftInfo() {
         try {
             String sql = "select * from Shift";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 emp_shift.addItem(rs.getString("s_name"));
@@ -628,7 +618,7 @@ public class JFrame_EmployeeDetails extends javax.swing.JFrame {
 
             String id = emp_code.getText();
             String query = "update Employee set emp_name = ?, emp_fname = ?, emp_address = ?, emp_phn = ?, emp_mbl = ?,emp_dob = ?,emp_nid = ?,emp_gender = ?,emp_status = ?,emp_title = ?,emp_dept = ?,emp_shift = ?,emp_joined = ?,emp_salary = ? where emp_id = '" + id + "'";
-            pst = conn.prepareStatement(query);
+            pst = ConnectionDB.conDB().prepareStatement(query);
 
             pst.setString(1, emp_name.getText());
             pst.setString(2, emp_fname.getText());
@@ -674,7 +664,7 @@ public class JFrame_EmployeeDetails extends javax.swing.JFrame {
                     + "(emp_name,emp_fname,emp_address,emp_phn,emp_mbl,emp_dob,emp_nid,emp_gender,emp_status,emp_title,emp_dept,emp_shift,emp_joined,emp_salary,emp_img)"
                     + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, emp_name.getText());
             pst.setString(2, emp_fname.getText());
             pst.setString(3, emp_address.getText());

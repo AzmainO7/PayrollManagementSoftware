@@ -29,27 +29,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JFrame_Payslip extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_Payslip() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         refreshTable();
     }
 
     private void refreshTable() {
         try {
             String sql = "SELECT * from Payroll INNER JOIN Employee ON Payroll.emp_id = Employee.emp_id";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -242,7 +233,7 @@ public class JFrame_Payslip extends javax.swing.JFrame {
             System.out.println(DateFrom);
 
             sql = "select * from Payroll INNER JOIN Employee ON Payroll.emp_id = Employee.emp_id where salary_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
 
             ResultSetMetaData data = rs.getMetaData();
@@ -309,7 +300,7 @@ public class JFrame_Payslip extends javax.swing.JFrame {
                 String c_footer = "";
 
                 String sql = "select * from Payroll where emp_id = ? AND salary_date = '" + date + "'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, String.valueOf(empID));
                 rs = pst.executeQuery();
 
@@ -336,7 +327,7 @@ public class JFrame_Payslip extends javax.swing.JFrame {
                 pst.close();
 
                 sql = "select * from Company";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 while (rs.next()) {

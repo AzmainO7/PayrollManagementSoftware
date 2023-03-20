@@ -19,21 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_Allowance extends javax.swing.JFrame {
 
-
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
     
     public JFrame_Allowance() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         loadShiftInfo();
     }
     
@@ -46,7 +36,7 @@ public class JFrame_Allowance extends javax.swing.JFrame {
     private void loadShiftInfo() {
         try {
             String sql = "select * from Shift";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 emp_shift.addItem(rs.getString("s_name"));
@@ -340,7 +330,7 @@ public class JFrame_Allowance extends javax.swing.JFrame {
             String selection = emp_code1.getText();
 
             sql = "select * from Employee where emp_id = ?";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -377,7 +367,7 @@ public class JFrame_Allowance extends javax.swing.JFrame {
                     + "(emp_id,enroll_date,allowance,amount)"
                     + "values (?,?,?,?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, emp_code1.getText());
             pst.setString(2, date);
             pst.setString(3, allowance_type.getText());
@@ -408,7 +398,7 @@ public class JFrame_Allowance extends javax.swing.JFrame {
             
             String id = allowanceID.getText();
             String query = "update Allowance set enroll_date = ?, allowance = ?, amount = ? where allowance_id = '" + id + "'";
-            pst = conn.prepareStatement(query);
+            pst = ConnectionDB.conDB().prepareStatement(query);
 
             pst.setString(1, date);
             pst.setString(2, allowance_type.getText());

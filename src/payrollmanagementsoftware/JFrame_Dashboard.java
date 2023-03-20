@@ -27,20 +27,11 @@ import java.util.Date;
  */
 public class JFrame_Dashboard extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_Dashboard() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -775,7 +766,7 @@ public class JFrame_Dashboard extends javax.swing.JFrame {
             try {
                 String sql = "select * from Employee";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 Document myDocument = new Document();
@@ -860,7 +851,7 @@ public class JFrame_Dashboard extends javax.swing.JFrame {
             try {
                 String sql = "SELECT * FROM Attendance INNER JOIN Employee on Attendance.emp_id = Employee.emp_id";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 Document myDocument = new Document();
@@ -926,7 +917,7 @@ public class JFrame_Dashboard extends javax.swing.JFrame {
             try {
                 String sql = "SELECT * FROM Allowance INNER JOIN Employee on Allowance.emp_id = Employee.emp_id";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 Document myDocument = new Document();
@@ -992,7 +983,7 @@ public class JFrame_Dashboard extends javax.swing.JFrame {
             try {
                 String sql = "SELECT * FROM Deduction INNER JOIN Employee on Deduction.emp_id = Employee.emp_id";
 
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
 
                 Document myDocument = new Document();

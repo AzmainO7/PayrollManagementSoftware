@@ -16,20 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_UpdateSalary extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_UpdateSalary() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void clearFields() {
@@ -45,7 +36,7 @@ public class JFrame_UpdateSalary extends javax.swing.JFrame {
         try {
             String sql = "select emp_name,emp_dept,emp_salary from Employee where emp_id = ?";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, emp_code.getText());
             rs = pst.executeQuery();
 
@@ -349,14 +340,14 @@ public class JFrame_UpdateSalary extends javax.swing.JFrame {
             if (rperc.isSelected()) {
                 double getPercentage = Double.parseDouble(updateAmount.getText());
                 sql = "UPDATE Employee SET emp_salary = emp_salary + (emp_salary * '"+getPercentage+"' / 100)";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.execute();
                 searchRecord();
                 JOptionPane.showMessageDialog(null, "Salary Updated");
             } else if (ramt.isSelected()) {
                 double getAmount = Double.parseDouble(updateAmount.getText());
                 sql = "UPDATE Employee SET emp_salary = emp_salary + '"+getAmount+"'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.execute();
                 searchRecord();
                 JOptionPane.showMessageDialog(null, "Salary Updated");

@@ -22,20 +22,11 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_Leave extends javax.swing.JFrame {
 
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_Leave() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         loadShiftInfo();
     }
 
@@ -48,7 +39,7 @@ public class JFrame_Leave extends javax.swing.JFrame {
     private void loadShiftInfo() {
         try {
             String sql = "select * from Shift";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 emp_shift.addItem(rs.getString("s_name"));
@@ -413,7 +404,7 @@ public class JFrame_Leave extends javax.swing.JFrame {
             String selection = emp_code1.getText();
 
             sql = "select * from Employee where emp_id = ?";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, selection);
             rs = pst.executeQuery();
 
@@ -455,7 +446,7 @@ public class JFrame_Leave extends javax.swing.JFrame {
                     + "(emp_id,leave_type,start_date,end_date,days,reason)"
                     + "values (?,?,?,?,?,?)";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             pst.setString(1, emp_code1.getText());
             pst.setString(2, leave_type.getSelectedItem().toString());
             pst.setString(3, start);
@@ -491,7 +482,7 @@ public class JFrame_Leave extends javax.swing.JFrame {
             
             String id = leaveID.getText();
             String query = "update Leave set leave_type = ?, start_date = ?, end_date = ?, days = ?, reason = ? where leave_id = '" + id + "'";
-            pst = conn.prepareStatement(query);
+            pst = ConnectionDB.conDB().prepareStatement(query);
 
             pst.setString(1, leave_type.getSelectedItem().toString());
             pst.setString(2, start);

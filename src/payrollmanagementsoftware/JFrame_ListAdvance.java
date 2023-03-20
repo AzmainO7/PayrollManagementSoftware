@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package payrollmanagementsoftware;
 
-/**
- *
- * @author piash
- */
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,24 +15,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class JFrame_ListAdvance extends javax.swing.JFrame {
 
-    /**
-     * Creates new form JFrame_ListAdvance
-     */
-    Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
     public JFrame_ListAdvance() {
-        initComponents();
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        initComponents();  
         refreshTable();
 
     }
@@ -48,7 +27,7 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
     private void refreshTable() {
         try {
             String sql = "select * from CashAdvance";
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
             ResultSetMetaData data = rs.getMetaData();
@@ -261,11 +240,11 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
 
             if (jRadioDate.isSelected()) {
                 sql = "select * from CashAdvance where start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
             } else if ((jRadioEmpDate.isSelected())) {
                 sql = "select * from CashAdvance where emp_id = ? AND start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
-                pst = conn.prepareStatement(sql);
+                pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, EmpID);
                 rs = pst.executeQuery();
             }
@@ -309,7 +288,7 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
 
             String sql = "SELECT * from CashAdvance INNER JOIN Employee ON CashAdvance.emp_id = Employee.emp_id AND CashAdvance.cashAdvance_id = '" + id + "'";
 
-            pst = conn.prepareStatement(sql);
+            pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
                 String add1 = rs.getString("emp_name");

@@ -16,34 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class JFrame_Login extends javax.swing.JFrame {
 
-    Connection con = null;
     ResultSet rs = null;
     PreparedStatement ps = null;
 
     public JFrame_Login() {
         initComponents();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=PayrollManagementStudio;selectMethod=cursor", "sa", "123456");
-            //jdbc:sqlserver://DESKTOP-83JQO3M\\SQLEXPRESS;databaseName=PayrollManagementStudio;integratedSecurity=true
-
-            System.out.println("DATABASE NAME IS: " + con.getMetaData().getDatabaseProductName());
-
-//            Statement statement = con.createStatement();
-//            ResultSet resultSet = statement
-//                    .executeQuery("SELECT * FROM Customer");
-//            
-//            
-//            while (resultSet.next()) {
-//                
-//                System.out.println("Customer NAME:" + 
-//                        resultSet.getString("FirstName")+" "+resultSet.getString("LastName"));
-//                
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -153,7 +130,7 @@ public class JFrame_Login extends javax.swing.JFrame {
             String sql = "select id, username, password from Users where (username=? and password=?)";
 
             int count = 0;
-            ps = con.prepareStatement(sql);
+            ps = ConnectionDB.conDB().prepareStatement(sql);
             ps.setString(1, jTextFieldUsername.getText());
             ps.setString(2, jPasswordField.getText());
 
