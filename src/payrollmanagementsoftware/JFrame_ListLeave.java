@@ -17,10 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author piash
- */
 public class JFrame_ListLeave extends javax.swing.JFrame {
 
     ResultSet rs = null;

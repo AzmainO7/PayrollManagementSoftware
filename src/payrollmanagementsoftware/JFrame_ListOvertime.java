@@ -17,10 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author piash
- */
 public class JFrame_ListOvertime extends javax.swing.JFrame {
 
     ResultSet rs = null;

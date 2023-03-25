@@ -5,20 +5,16 @@
 package payrollmanagementsoftware;
 
 import java.awt.Image;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  *
@@ -33,10 +29,38 @@ public class JFrame_Payroll extends javax.swing.JFrame {
     Double leaveDays;
     Double absentDays;
     Double totalAbsence;
+    int workDays;
 
     public JFrame_Payroll() {
         initComponents();
         loadShiftInfo();
+        calculateWorkDays();
+
+        YearMonth yearMonth = YearMonth.now();
+        LocalDate firstDayOfMonth = yearMonth.atDay(1);
+        LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
+
+        Date firstDay = Date.from(firstDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date lastDay = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        pay_start.setDate(firstDay);
+        pay_to.setDate(lastDay);
+
+    }
+
+    private void calculateWorkDays() {
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+        LocalDate lastDayOfMonth = firstDayOfMonth.with(TemporalAdjusters.lastDayOfMonth());
+        int workDayCount = 0;
+
+        for (LocalDate date = firstDayOfMonth; date.isBefore(lastDayOfMonth.plusDays(1)); date = date.plusDays(1)) {
+            if (date.getDayOfWeek().getValue() >= 1 && date.getDayOfWeek().getValue() <= 5) {
+                workDayCount++;
+            }
+        }
+        workDays = workDayCount;
     }
 
     private void reset() {
@@ -682,10 +706,14 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             String selection = emp_code1.getText();
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
             String DateFrom = sdf.format(pay_start.getDate());
             String DateTo = sdf.format(pay_to.getDate());
-            Date date = sdf.parse(DateTo);
-            pay_date.setDate(date);
+//            Date date = sdf.parse(DateTo);
+//            pay_date.setDate(date);
+
+            Date currentDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            pay_date.setDate(currentDate);
 
 //            LocalDateTime from = LocalDateTime.ofInstant(pay_start.getDate().toInstant(), ZoneId.systemDefault());
 //            LocalDateTime to = LocalDateTime.ofInstant(pay_to.getDate().toInstant(), ZoneId.systemDefault());
@@ -761,17 +789,19 @@ public class JFrame_Payroll extends javax.swing.JFrame {
                         String add2 = rs.getString("count");
                         if (add2 != null) {
                             Double presentDays = Double.valueOf(add2);
-                            absentDays = 24 - presentDays;
+                            absentDays = workDays - presentDays;
                             System.out.println("absent :" + absentDays);
                         }
                     }
 
                     totalAbsence = leaveDays + absentDays;
 
-                    if (totalAbsence > 1 + 4) {
-                        absencePenalty = salary / 24 * totalAbsence;
-                        absence.setText(String.valueOf(absencePenalty));
-                    }
+                    //Considering 1 day absence permitted per month
+                    //if (totalAbsence > 1) {       
+                    //absencePenalty = salary / workDays * (totalAbsence - 1);
+                    absencePenalty = salary / workDays * totalAbsence;
+                    absence.setText(String.valueOf(absencePenalty));
+                    //}
                 }
             }
 
@@ -789,9 +819,9 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
             while (rs.next()) {
                 String add1 = rs.getString("total");
-             if (add1 != null) {
-                deduction.setText(add1);
-              }         
+                if (add1 != null) {
+                    deduction.setText(add1);
+                }
             }
 
             sql = "SELECT SUM(amount) as total FROM CashAdvance WHERE emp_id = ? AND cashAdvance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
@@ -803,10 +833,10 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             while (rs.next()) {
                 String add1 = rs.getString("total");
                 if (add1 != null) {
-                  advance.setText(add1);
-                 }               
+                    advance.setText(add1);
+                }
             }
-            
+
             gross = Double.valueOf(gross_pay.getText());
             Double abs = Double.valueOf(absence.getText());
             Double ded = Double.valueOf(deduction.getText());
@@ -866,14 +896,12 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             Date date = sdf.parse(DateTo);
             pay_date.setDate(date);
 
-            LocalDateTime from = LocalDateTime.ofInstant(pay_start.getDate().toInstant(), ZoneId.systemDefault());
-            LocalDateTime to = LocalDateTime.ofInstant(pay_to.getDate().toInstant(), ZoneId.systemDefault());
-
-            Duration d = Duration.between(from, to);
-            String days = String.valueOf(d.toDays());
-            totalAbsence = 24 - (leaveDays + totalAbsence);
-            int i = totalAbsence.intValue();
-            String present = String.valueOf(i);
+//            LocalDateTime from = LocalDateTime.ofInstant(pay_start.getDate().toInstant(), ZoneId.systemDefault());
+//            LocalDateTime to = LocalDateTime.ofInstant(pay_to.getDate().toInstant(), ZoneId.systemDefault());
+//
+//            Duration d = Duration.between(from, to);
+//            String days = String.valueOf(d.toDays());
+            int presentDays = workDays - totalAbsence.intValue();
 
             sql = "insert into Payroll"
                     + "(emp_id,salary_date,salary_from,salary_to,total_days,present_days,basic_salary,overtime,allowance,bonus,gross_pay,deduction,advance,income_tax,net_salary)"
@@ -884,8 +912,8 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             pst.setString(2, DateTo);
             pst.setString(3, DateFrom);
             pst.setString(4, DateTo);
-            pst.setString(5, days);
-            pst.setString(6, present);
+            pst.setString(5, String.valueOf(workDays));
+            pst.setString(6, String.valueOf(presentDays));
             pst.setString(7, base_salary.getText());
             pst.setString(8, overtime.getText());
             pst.setString(9, allowance.getText());

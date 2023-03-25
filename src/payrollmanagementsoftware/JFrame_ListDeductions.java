@@ -4,10 +4,6 @@
  */
 package payrollmanagementsoftware;
 
-/**
- *
- * @author piash
- */
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
