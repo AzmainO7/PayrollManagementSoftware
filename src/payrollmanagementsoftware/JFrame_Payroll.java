@@ -16,10 +16,6 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.TemporalAdjusters;
 
-/**
- *
- * @author Hp
- */
 public class JFrame_Payroll extends javax.swing.JFrame {
 
     ResultSet rs = null;
@@ -34,8 +30,11 @@ public class JFrame_Payroll extends javax.swing.JFrame {
     public JFrame_Payroll() {
         initComponents();
         loadShiftInfo();
+        loadCurrentMonthStartAndEndDate();
         calculateWorkDays();
+    }
 
+    private void loadCurrentMonthStartAndEndDate() {
         YearMonth yearMonth = YearMonth.now();
         LocalDate firstDayOfMonth = yearMonth.atDay(1);
         LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
@@ -45,7 +44,6 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
         pay_start.setDate(firstDay);
         pay_to.setDate(lastDay);
-
     }
 
     private void calculateWorkDays() {
@@ -55,10 +53,17 @@ public class JFrame_Payroll extends javax.swing.JFrame {
         LocalDate lastDayOfMonth = firstDayOfMonth.with(TemporalAdjusters.lastDayOfMonth());
         int workDayCount = 0;
 
+        //..For each date, it checks if it is a weekday (Sunday to Thursday)..
+        //..by calling the getDayOfWeek().getValue() method on the date object..
+        //..which returns the day of the week as an integer (1 for Monday, 5 for Friday, 6 for Saturday, 7 for Sunday etc)..  
         for (LocalDate date = firstDayOfMonth; date.isBefore(lastDayOfMonth.plusDays(1)); date = date.plusDays(1)) {
-            if (date.getDayOfWeek().getValue() >= 1 && date.getDayOfWeek().getValue() <= 5) {
+            if (date.getDayOfWeek().getValue() != 5 && date.getDayOfWeek().getValue() != 6) {
                 workDayCount++;
             }
+//            DayOfWeek dayOfWeek = date.getDayOfWeek();
+//            if (dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY) {
+//                workDayCount++;
+//            }
         }
         workDays = workDayCount;
     }
@@ -81,7 +86,6 @@ public class JFrame_Payroll extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-
     }
 
     /**
@@ -796,7 +800,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
                     totalAbsence = leaveDays + absentDays;
 
-                    //Considering 1 day absence permitted per month
+                    //..Considering 1 day absence permitted per month..
                     //if (totalAbsence > 1) {       
                     //absencePenalty = salary / workDays * (totalAbsence - 1);
                     absencePenalty = salary / workDays * totalAbsence;
