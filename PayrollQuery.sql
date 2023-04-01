@@ -2,6 +2,14 @@ create database PayrollManagementStudio
 
 use PayrollManagementStudio
 
+create table Users (
+id int primary key identity(1,1),
+username varchar(50),
+password varchar(50)
+)
+
+insert into Users values('Admin','1234')
+
 create table Employee(
 emp_id int primary key identity(1,1),
 emp_name varchar(50),
