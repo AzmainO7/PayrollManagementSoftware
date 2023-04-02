@@ -143,7 +143,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(57, 105, 138));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -190,9 +190,9 @@ public class JFrame_Payroll extends javax.swing.JFrame {
         jLabel5.setText("Employee's Name");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Shift Name");
+        jLabel6.setText("Shift");
 
-        btn_search.setBackground(new java.awt.Color(0, 204, 204));
+        btn_search.setBackground(new java.awt.Color(57, 105, 138));
         btn_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btn_search.setForeground(new java.awt.Color(255, 255, 255));
         btn_search.setText("SEARCH");
@@ -288,7 +288,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
         pay_to.setDateFormatString("yyyy-MM-dd");
         pay_to.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        btn_calc.setBackground(new java.awt.Color(0, 204, 204));
+        btn_calc.setBackground(new java.awt.Color(57, 105, 138));
         btn_calc.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btn_calc.setForeground(new java.awt.Color(255, 255, 255));
         btn_calc.setText("CALCULATE");
@@ -534,7 +534,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel20.setText("Net Salary");
 
-        btn_post.setBackground(new java.awt.Color(0, 204, 204));
+        btn_post.setBackground(new java.awt.Color(57, 105, 138));
         btn_post.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btn_post.setForeground(new java.awt.Color(255, 255, 255));
         btn_post.setText("POST SALARY");
@@ -1006,27 +1006,27 @@ public class JFrame_Payroll extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFrame_Payroll.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -79,7 +79,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(57, 105, 138));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -113,7 +113,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
         jLabel4.setText("Employee's Name");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Shift Name");
+        jLabel6.setText("Shift");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Date");
@@ -143,13 +143,17 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
         });
 
         emp_shift.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        emp_shift.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Day Shift", "Night Shift" }));
+        emp_shift.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emp_shiftActionPerformed(evt);
+            }
+        });
 
         cashAdvance_date.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         amount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
+        jButton1.setBackground(new java.awt.Color(57, 105, 138));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("SEARCH");
@@ -159,7 +163,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 204));
+        jButton2.setBackground(new java.awt.Color(57, 105, 138));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Save");
@@ -169,7 +173,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 204, 204));
+        jButton3.setBackground(new java.awt.Color(57, 105, 138));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Update");
@@ -419,6 +423,10 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void emp_shiftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emp_shiftActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emp_shiftActionPerformed
 
     /**
      * @param args the command line arguments

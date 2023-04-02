@@ -400,7 +400,7 @@ public class JFrame_ListOvertime extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable5);
 
-        jPanel3.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(57, 105, 138));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -450,7 +450,7 @@ public class JFrame_ListOvertime extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton5.setBackground(new java.awt.Color(0, 204, 204));
+        jButton5.setBackground(new java.awt.Color(57, 105, 138));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("REFRESH");
@@ -468,7 +468,7 @@ public class JFrame_ListOvertime extends javax.swing.JFrame {
 
         jDateChooserfrom.setDateFormatString("yyyy-MM-dd");
 
-        jButton6.setBackground(new java.awt.Color(0, 204, 204));
+        jButton6.setBackground(new java.awt.Color(57, 105, 138));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("FIND");
@@ -483,7 +483,7 @@ public class JFrame_ListOvertime extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("TO");
 
-        jButton7.setBackground(new java.awt.Color(0, 204, 204));
+        jButton7.setBackground(new java.awt.Color(57, 105, 138));
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("UPDATE");
@@ -722,9 +722,7 @@ public class JFrame_ListOvertime extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JFrame_ListOvertime.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -66,7 +66,7 @@ public class JFrame_Login extends javax.swing.JFrame {
             }
         });
 
-        jButtonLogin.setBackground(new java.awt.Color(0, 204, 204));
+        jButtonLogin.setBackground(new java.awt.Color(57, 105, 138));
         jButtonLogin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLogin.setText("Login");
