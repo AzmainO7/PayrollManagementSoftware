@@ -4,6 +4,8 @@
  */
 package payrollmanagementsoftware;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -136,11 +138,15 @@ public class JFrame_Login extends javax.swing.JFrame {
 
             rs = ps.executeQuery();
             while (rs.next()) {
-                count++;               
+                count++;
             }
             if (count == 1) {
-                JOptionPane.showMessageDialog(null, "success");
+                //JOptionPane.showMessageDialog(null, "success");
+                java.net.URL url = ClassLoader.getSystemResource("payrollmanagementsoftware/images/icons8-payroll-64.png");
+                Toolkit kit = Toolkit.getDefaultToolkit();
+                Image img = kit.createImage(url);
                 JFrame_Dashboard frame = new JFrame_Dashboard();
+                frame.setIconImage(img);
                 frame.username.setText(jTextFieldUsername.getText());
                 frame.setExtendedState(JFrame_Dashboard.MAXIMIZED_BOTH);
                 frame.setDefaultCloseOperation(JFrame_Dashboard.EXIT_ON_CLOSE);

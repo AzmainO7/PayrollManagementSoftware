@@ -1,5 +1,8 @@
 package payrollmanagementsoftware;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 public class PayrollManagementSoftware {
 
     public static void main(String[] args) {
@@ -19,8 +22,12 @@ public class PayrollManagementSoftware {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFrame_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        java.net.URL url = ClassLoader.getSystemResource("payrollmanagementsoftware/images/icons8-payroll-64.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
         JFrame_Login frame = new JFrame_Login();
+        frame.setIconImage(img);
         frame.setVisible(true);
     }
-    
+
 }

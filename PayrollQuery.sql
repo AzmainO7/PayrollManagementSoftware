@@ -116,17 +116,17 @@ pay_id int primary key identity(1,1),
 salary_date date,
 salary_from date,
 salary_to date,
-total_days int,
+total_days int null,
 present_days int null,
-basic_salary varchar(50) null,
-overtime varchar(50) null,
-allowance varchar(50) null,
-bonus varchar(50) null,
-gross_pay varchar(50) null,
-deduction varchar(50) null,
-advance varchar(50) null,
-income_tax varchar(50) null,
-net_salary varchar(50) null
+basic_salary decimal(18, 2) null,
+overtime decimal(18, 2) null,
+allowance decimal(18, 2) null,
+bonus decimal(18, 2) null,
+gross_pay decimal(18, 2) null,
+deduction decimal(18, 2) null,
+advance decimal(18, 2) null,
+income_tax decimal(18, 2) null,
+net_salary decimal(18, 2) null
 )
 
 SELECT Employee.emp_salary as baseSalary, SUM(Allowance.amount) as allowanceAmount, SUM(Deduction.amount), SUM(CashAdvance.amount) FROM Employee 

@@ -22,9 +22,11 @@ public class JFrame_Payroll extends javax.swing.JFrame {
     PreparedStatement pst = null;
 
     Double absencePenalty;
-    Double leaveDays;
-    Double absentDays;
-    Double totalAbsence;
+    Double salary;
+    int leaveDays;
+    int absentDays;
+    int presentDays;
+    int totalAbsence;
     int workDays;
 
     public JFrame_Payroll() {
@@ -682,9 +684,11 @@ public class JFrame_Payroll extends javax.swing.JFrame {
                 count++;
                 String add1 = rs.getString("emp_name");
                 emp_name.setText(add1);
-
                 String add2 = rs.getString("emp_shift");
-                emp_shift.setSelectedItem(add2);
+                emp_shift.setSelectedItem(add2);                
+                String add3 = rs.getString("emp_salary");
+                salary = Double.valueOf(add3);
+                base_salary.setText(add3);
 
                 byte[] image = rs.getBytes("emp_img");
                 ImageIcon imageIcon = new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(img3.getWidth(), img3.getHeight(), Image.SCALE_SMOOTH));
@@ -781,34 +785,65 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             while (rs.next()) {
                 String add1 = rs.getString("total");
                 if (add1 != null) {
-                    leaveDays = Double.valueOf(add1);
-                    Double salary = Double.valueOf(base_salary.getText());
-                    System.out.println("Leave Days : " + leaveDays);
-                    sql = "SELECT COUNT(attendance_id) as count FROM Attendance WHERE emp_id = ? AND attendance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
-                    pst = ConnectionDB.conDB().prepareStatement(sql);
-                    pst.setString(1, selection);
-                    rs = pst.executeQuery();
-
-                    while (rs.next()) {
-                        String add2 = rs.getString("count");
-                        if (add2 != null) {
-                            Double presentDays = Double.valueOf(add2);
-                            absentDays = workDays - presentDays;
-                            System.out.println("absent :" + absentDays);
-                        }
-                    }
-
-                    totalAbsence = leaveDays + absentDays;
-
-                    //..Considering 1 day absence permitted per month..
-                    //if (totalAbsence > 1) {       
-                    //absencePenalty = salary / workDays * (totalAbsence - 1);
-                    absencePenalty = salary / workDays * totalAbsence;
-                    absence.setText(String.valueOf(absencePenalty));
-                    //}
+                    leaveDays = Integer.valueOf(add1);
+                    //salary = Double.valueOf(base_salary.getText());
+//                    sql = "SELECT COUNT(attendance_id) as count FROM Attendance WHERE emp_id = ? AND attendance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
+//                    pst = ConnectionDB.conDB().prepareStatement(sql);
+//                    pst.setString(1, selection);
+//                    rs = pst.executeQuery();
+//
+//                    while (rs.next()) {
+//                        String add2 = rs.getString("count");
+//                        if (add2 != null) {
+//                            presentDays = Integer.valueOf(add2);
+//                            absentDays = workDays - presentDays;                          
+//                        }
+//                    }
+//
+//                    //totalAbsence = 21;
+//                    totalAbsence = leaveDays + absentDays;
+//
+//                    //..Considering 1 day absence permitted per month..
+//                    //if (totalAbsence > 1) {       
+//                    //absencePenalty = salary / workDays * (totalAbsence - 1);
+//                    absencePenalty = salary / workDays * totalAbsence;
+//                    absence.setText(String.valueOf(absencePenalty));
+//                    //}
                 }
             }
 
+            sql = "SELECT COUNT(attendance_id) as count FROM Attendance WHERE emp_id = ? AND attendance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "' ";
+            pst = ConnectionDB.conDB().prepareStatement(sql);
+            pst.setString(1, selection);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String add2 = rs.getString("count");
+                if (add2 != null) {
+                    presentDays = Integer.valueOf(add2);
+                    absentDays = workDays - presentDays;
+                }
+            }
+
+            totalAbsence = leaveDays + absentDays;
+
+            System.out.println("leaveDays : " + leaveDays);
+            System.out.println("workDays : " + workDays);
+            System.out.println("presentDays : " + presentDays);
+            System.out.println("absentDays : " + absentDays);
+            System.out.println("totalAbsence : " + totalAbsence);
+            System.out.println("salary : " + salary);
+            
+            //..Considering 1 day absence permitted per month..
+            //if (totalAbsence > 1) {       
+            //absencePenalty = salary / workDays * (totalAbsence - 1);
+            absencePenalty = salary / workDays * totalAbsence;
+            System.out.println("absencePenalty : " + absencePenalty);
+            String result = String.format("%.2f", absencePenalty);
+            absence.setText(String.valueOf(result));
+            //}
+
+            
             Double allow = Double.valueOf(allowance.getText());
             Double over = Double.valueOf(overtime.getText());
             Double salary = Double.valueOf(base_salary.getText());
@@ -850,6 +885,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
+            System.out.println(ex.getStackTrace()[0].getLineNumber());
         }
     }//GEN-LAST:event_btn_calcActionPerformed
 
@@ -891,6 +927,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 
     private void btn_postActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_postActionPerformed
         try {
+
             String sql;
             String selection = emp_code1.getText();
 
@@ -905,7 +942,9 @@ public class JFrame_Payroll extends javax.swing.JFrame {
 //
 //            Duration d = Duration.between(from, to);
 //            String days = String.valueOf(d.toDays());
-            int presentDays = workDays - totalAbsence.intValue();
+            System.out.println("workDays : " + workDays);
+            System.out.println("totalAbsence : " + totalAbsence);
+            int presentDays = workDays - totalAbsence;
 
             sql = "insert into Payroll"
                     + "(emp_id,salary_date,salary_from,salary_to,total_days,present_days,basic_salary,overtime,allowance,bonus,gross_pay,deduction,advance,income_tax,net_salary)"
@@ -932,6 +971,7 @@ public class JFrame_Payroll extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Data is saved successfully");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
+            System.err.println(ex.getMessage() + "In Line : " + ex.getStackTrace()[0].getLineNumber());
         }
     }//GEN-LAST:event_btn_postActionPerformed
 
