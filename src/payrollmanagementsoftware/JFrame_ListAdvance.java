@@ -39,7 +39,7 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
                 for (int i = 1; i <= q; i++) {
 
                     columnData.add(rs.getString("emp_id"));
-                    columnData.add(rs.getString("cashAdvance_date"));
+                    columnData.add(rs.getString("advance_date"));
                     columnData.add(rs.getString("comment"));
                     columnData.add(rs.getString("amount"));
                 }
@@ -255,11 +255,11 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
             System.out.println(DateFrom);
 
             if (jRadioDate.isSelected()) {
-                sql = "select * from CashAdvance where start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
+                sql = "select * from CashAdvance where advance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
                 pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
             } else if ((jRadioEmpDate.isSelected())) {
-                sql = "select * from CashAdvance where emp_id = ? AND start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
+                sql = "select * from CashAdvance where emp_id = ? AND advance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
                 pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, EmpID);
                 rs = pst.executeQuery();
@@ -276,7 +276,7 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
                 for (int i = 1; i <= q; i++) {
 
                     columnData.add(rs.getString("emp_id"));
-                    columnData.add(rs.getString("cashAdvance_date"));
+                    columnData.add(rs.getString("advance_date"));
                     columnData.add(rs.getString("comment"));
                     columnData.add(rs.getString("amount"));
                 }
@@ -302,7 +302,7 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
 
             JFrame_CashAdvance frame = new JFrame_CashAdvance();
 
-            String sql = "SELECT * from CashAdvance INNER JOIN Employee ON CashAdvance.emp_id = Employee.emp_id AND CashAdvance.cashAdvance_id = '" + id + "'";
+            String sql = "SELECT * from CashAdvance INNER JOIN Employee ON CashAdvance.emp_id = Employee.emp_id AND CashAdvance.advance_id = '" + id + "'";
 
             pst = ConnectionDB.conDB().prepareStatement(sql);
             rs = pst.executeQuery();
@@ -313,12 +313,12 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
                 String add2 = rs.getString("emp_shift");
                 frame.emp_shift.setSelectedItem(add2);
 
-                String add3 = rs.getString("date1_date");
+                String add3 = rs.getString("advance_date");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date start = sdf.parse(add3);
                 frame.cashAdvance_date.setDate(start);
 
-                String add4 = rs.getString("cashAdvance_type");
+                String add4 = rs.getString("comment");
                 frame.cashAdvance_type.setText(add4);
 
                 String add5 = rs.getString("amount");
@@ -342,11 +342,16 @@ public class JFrame_ListAdvance extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioEmpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioEmpDateActionPerformed
-        // TODO add your handling code here:
+        jRadioEmpDate.setSelected(true);
+        jRadioDate.setSelected(false);
+        empId.setEditable(true);
     }//GEN-LAST:event_jRadioEmpDateActionPerformed
 
     private void jRadioDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDateActionPerformed
-        // TODO add your handling code here:
+        jRadioEmpDate.setSelected(false);
+        jRadioDate.setSelected(true);
+        empId.setEditable(false);
+        empId.setText("");
     }//GEN-LAST:event_jRadioDateActionPerformed
 
     /**

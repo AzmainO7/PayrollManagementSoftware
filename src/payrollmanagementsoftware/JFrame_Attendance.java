@@ -19,8 +19,7 @@ public class JFrame_Attendance extends javax.swing.JFrame {
     
     public JFrame_Attendance() {
         initComponents();
-        loadShiftInfo();
-          
+        loadShiftInfo();      
     }
     
      private void reset() {

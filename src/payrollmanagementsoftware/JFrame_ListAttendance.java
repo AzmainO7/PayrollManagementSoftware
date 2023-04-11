@@ -24,7 +24,7 @@ public class JFrame_ListAttendance extends javax.swing.JFrame {
     
     private void refreshTable() {
         try {
-            String sql = "select * from Attendance inner join Employee ON Attendance.emp_id = Employee.emp_id ";
+            String sql = "select * from Attendance inner join Employee ON Attendance.emp_id = Employee.emp_id";
             pst = ConnectionDB.conDB().prepareStatement(sql);
 
             rs = pst.executeQuery();
@@ -162,10 +162,7 @@ public class JFrame_ListAttendance extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-
-        
-        try {
+       try {
             String sql;
           //  String EmpID = empId.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -173,7 +170,7 @@ public class JFrame_ListAttendance extends javax.swing.JFrame {
             String DateTo = sdf.format(jDateChooserto.getDate());
             System.out.println(DateFrom);
 
-            sql = "select * from Attendance ";
+            sql = "select * from Attendance inner join Employee ON Attendance.emp_id = Employee.emp_id where attendance_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
                 pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
                 

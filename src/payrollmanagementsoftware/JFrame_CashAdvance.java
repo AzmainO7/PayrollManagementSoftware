@@ -361,7 +361,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
             String date = sdf.format(cashAdvance_date.getDate());
 
             String sql = "insert into CashAdvance "
-                    + "(emp_id,cashAdvance_date,comment,amount)"
+                    + "(emp_id,advance_date,comment,amount)"
                     + "values (?,?,?,?)";
 
             pst = ConnectionDB.conDB().prepareStatement(sql);
@@ -386,8 +386,6 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String date = sdf.format(cashAdvance_date.getDate());
@@ -395,7 +393,7 @@ public class JFrame_CashAdvance extends javax.swing.JFrame {
             String amt = String.valueOf(amount);
 
             String id = cashAdvanceID.getText();
-            String query = "update CashAdvance set date1 = ?, comment = ?, amount = ? where cashAdavance_id = '" + id + "'";
+            String query = "update CashAdvance set date1 = ?, comment = ?, amount = ? where adavance_id = '" + id + "'";
             pst = ConnectionDB.conDB().prepareStatement(query);
 
             pst.setString(1, date);

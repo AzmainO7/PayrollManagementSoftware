@@ -103,12 +103,11 @@ time_in varchar(50),
 
 create table CashAdvance(
 emp_id int not null foreign key references Employee(emp_id),
-cashAdvance_date date,
+advance_id int primary key identity(1,1),
+advance_date date,
 comment varchar(50),
 amount numeric(18, 2)
 )
-
-alter table CashAdvance add cashAdvance_id int primary key identity(1,1)
 
 create table Payroll(
 emp_id int not null foreign key references Employee(emp_id),

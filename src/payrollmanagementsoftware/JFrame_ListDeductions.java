@@ -87,6 +87,11 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
         jRadioEmpDate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jRadioEmpDate.setForeground(new java.awt.Color(255, 255, 255));
         jRadioEmpDate.setText("Filter By Employee & Date");
+        jRadioEmpDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioEmpDateActionPerformed(evt);
+            }
+        });
 
         jRadioDate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jRadioDate.setForeground(new java.awt.Color(255, 255, 255));
@@ -243,11 +248,11 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
             System.out.println(DateFrom);
 
             if (jRadioDate.isSelected()) {
-                sql = "select * from Deduction where start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
+                sql = "select * from Deduction where enroll_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
                 pst = ConnectionDB.conDB().prepareStatement(sql);
                 rs = pst.executeQuery();
             } else if ((jRadioEmpDate.isSelected())) {
-                sql = "select * from Deduction where emp_id = ? AND start_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
+                sql = "select * from Deduction where emp_id = ? AND enroll_date BETWEEN '" + DateFrom + "' AND '" + DateTo + "'";
                 pst = ConnectionDB.conDB().prepareStatement(sql);
                 pst.setString(1, EmpID);
                 rs = pst.executeQuery();
@@ -307,7 +312,7 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
                 String add2 = rs.getString("emp_shift");
                 frame.emp_shift.setSelectedItem(add2);
 
-                String add3 = rs.getString("deduction_date");
+                String add3 = rs.getString("enroll_date");
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date start = sdf.parse(add3);
                 frame.deduction_date.setDate(start);
@@ -336,8 +341,17 @@ public class JFrame_ListDeductions extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDateActionPerformed
-        // TODO add your handling code here:
+        jRadioEmpDate.setSelected(false);
+        jRadioDate.setSelected(true);
+        empId.setEditable(false);
+        empId.setText("");
     }//GEN-LAST:event_jRadioDateActionPerformed
+
+    private void jRadioEmpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioEmpDateActionPerformed
+        jRadioEmpDate.setSelected(true);
+        jRadioDate.setSelected(false);
+        empId.setEditable(true);
+    }//GEN-LAST:event_jRadioEmpDateActionPerformed
 
     /**
      * @param args the command line arguments
